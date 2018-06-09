@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.*;
  * Created by xingxiaowen on 2018/06/09
  */
 @Mapper
-public interface UserDao {
+public interface UserDao extends SuperMapper<User> {
 
     /**
      * 根据用户名查找用户
