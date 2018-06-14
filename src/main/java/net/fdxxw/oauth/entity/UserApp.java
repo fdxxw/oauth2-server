@@ -9,9 +9,9 @@ import lombok.Data;
 @Data
 public class UserApp {
 
-    private Long userAppId;
+    private Integer userAppId;
 
-    private Long userId;
+    private Integer userId;
 
     private String appId;
 }

@@ -13,5 +13,5 @@ import java.util.List;
 public interface AppDao extends SuperMapper<App> {
 
     @Select("select a.* from app as a, user_app as ua where a.app_id = ua.app_id and ua.user_id = #{userId}")
-    List<App> findByUserId(String userId);
+    List<App> findByUserId(Integer userId);
 }

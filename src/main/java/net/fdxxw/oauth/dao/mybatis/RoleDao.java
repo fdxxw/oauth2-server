@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface RoleDao extends SuperMapper<Role> {
 
-    @Select("select a.* from role as r, user_role as ur where r.role_id = ur.role_id and ur.user_id = #{userId}")
-    List<Role> findByUserId(String userId);
+    @Select("select r.* from role as r, user_role as ur where r.role_id = ur.role_id and ur.user_id = #{userId}")
+    List<Role> findByUserId(Integer userId);
 
 }

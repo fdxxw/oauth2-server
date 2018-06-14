@@ -1,5 +1,6 @@
 package net.fdxxw.oauth.entity;
 
+import com.baomidou.mybatisplus.annotations.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -11,11 +12,12 @@ import java.util.List;
  * Created by xingxioawen on 2018/06/09
  */
 @Data
+@TableName(value = "users")
 public class User implements Serializable {
     /**
      * 用户Id
      */
-    private Long userId;
+    private Integer userId;
 
     /**
      * 用户名称

@@ -1,5 +1,6 @@
-package net.fdxxw.oauth.config;
+package net.fdxxw.oauth.security;
 
+import net.fdxxw.oauth.config.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,6 +9,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.Md4PasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
@@ -25,6 +29,9 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Resource
     private ClientDetailsService clientDetailsService;
 
+    @Resource
+    private MyUserDetailsService myUserDetailsService;
+
     /**
      * 在内存中创建两个用户
      * @param auth
@@ -32,9 +39,11 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Autowired
     public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
+        /*auth.inMemoryAuthentication()
                 .withUser("bill").password("abc123").roles("admin1").and()
-                .withUser("bob").password("abc123").roles("USER");
+                .withUser("bob").password("abc123").roles("USER");*/
+
+        auth.userDetailsService(myUserDetailsService);
     }
 
     /**
@@ -44,10 +53,8 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http
-                .anonymous().disable()
-                .authorizeRequests()
-                .antMatchers("/oauth/token").permitAll().and().authorizeRequests();
+        http.authorizeRequests().anyRequest().authenticated() //所有的请求都要验证
+                .and().formLogin().loginPage("/login").permitAll(); //表单验证登入页
     }
 
     @Override

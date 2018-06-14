@@ -3,6 +3,8 @@ package net.fdxxw.oauth.entity;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 用户应用, client
@@ -25,6 +27,26 @@ public class App {
      * 应用名称
      */
     private String appName;
+
+    /**
+     *
+     */
+    private Set<String> scopes;
+
+    /**
+     *
+     */
+    private Set<String> grantType;
+
+    /**
+     *
+     */
+    private String registeredRedirectUri;
+
+    /**
+     *
+     */
+    private List authorities;
 
     /**
      * 创建时间

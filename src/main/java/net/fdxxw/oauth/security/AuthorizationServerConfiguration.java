@@ -1,4 +1,4 @@
-package net.fdxxw.oauth.config;
+package net.fdxxw.oauth.security;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -33,12 +33,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 
         clients.inMemory()
-                .withClient("my-trusted-client")//客户端ID
-                .authorizedGrantTypes("password", "authorization_code", "refresh_token", "implicit")
+                .withClient("client")//客户端ID
+                .authorizedGrantTypes("password", "authorization_code", "refresh_token")
                 .authorities("ROLE_CLIENT", "ROLE_TRUSTED_CLIENT")
                 .scopes("read", "write", "trust")//授权用户的操作权限
-                .secret("secret")//密码
-                .accessTokenValiditySeconds(6000);//token有效期为120秒
+                .secret("{noop}secret")//密码
+                .accessTokenValiditySeconds(6000).redirectUris("http://localhost:8080");//token有效期为120秒
     }
 
     @Override

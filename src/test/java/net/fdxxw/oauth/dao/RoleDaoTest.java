@@ -21,7 +21,7 @@ public class RoleDaoTest {
     public void insertTest() {
 
        Role role = new Role();
-       role.setRoleName("admin");
+       role.setRoleName("user");
        role.setCreateDate(new Date());
        role.setAlterDate(new Date());
 

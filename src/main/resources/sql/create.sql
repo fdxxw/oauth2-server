@@ -1,8 +1,8 @@
 
 -- 创建用户
-drop table if exists "user";
+drop table if exists "users";
 
-create table "user" (
+create table "users" (
     user_id serial NOT NULL ,
 
     user_name varchar(50) NOT NULL,
@@ -65,7 +65,7 @@ create table "user_role" (
     constraint user_id_and_role_id unique(user_id, role_id)
 );
 
-alter table user_role add constraint fk_user_tole_user_id foreign key (user_id) references "user"(user_id);
+alter table user_role add constraint fk_user_tole_user_id foreign key (user_id) references "users"(user_id);
 alter table user_role add constraint fk_user_tole_role_id foreign key (role_id) references "role"(role_id);
 
 --创建user_app
@@ -81,6 +81,6 @@ create table "user_app" (
     constraint user_id_and_app_id unique(user_id, app_id)
 );
 
-alter table user_app add constraint fk_user_app_user_id foreign key (user_id) references "user"(user_id);
+alter table user_app add constraint fk_user_app_user_id foreign key (user_id) references "users"(user_id);
 alter table user_app add constraint fk_user_app_app_id foreign key (app_id) references "app"(app_id);
 

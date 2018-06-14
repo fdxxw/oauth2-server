@@ -1,6 +1,7 @@
 package net.fdxxw.oauth.entity;
 
 import lombok.Data;
+import org.omg.PortableInterceptor.INACTIVE;
 
 /**
  * 用户角色关联
@@ -9,9 +10,9 @@ import lombok.Data;
 @Data
 public class UserRole {
 
-    private Long userRoleId;
+    private Integer userRoleId;
 
-    private Long userId;
+    private Integer userId;
 
-    private Long roleId;
+    private Integer roleId;
 }
