@@ -1,5 +1,6 @@
 package net.fdxxw.oauth.security;
 
+import net.fdxxw.oauth.config.CorsFilter;
 import net.fdxxw.oauth.config.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -9,9 +10,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
-import org.springframework.security.crypto.password.Md4PasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.approval.ApprovalStore;
 import org.springframework.security.oauth2.provider.approval.TokenApprovalStore;
@@ -19,6 +17,7 @@ import org.springframework.security.oauth2.provider.approval.TokenStoreUserAppro
 import org.springframework.security.oauth2.provider.request.DefaultOAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore;
+import org.springframework.security.web.access.channel.ChannelProcessingFilter;
 
 import javax.annotation.Resource;
 
@@ -31,6 +30,9 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Resource
     private MyUserDetailsService myUserDetailsService;
+
+    @Resource
+    private CorsFilter corsFilter;
 
     /**
      * 在内存中创建两个用户
@@ -55,7 +57,9 @@ public class OAuth2SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().anyRequest().authenticated() //所有的请求都要验证
                 .and().formLogin().loginPage("/login").permitAll(); //表单验证登入页
+        http.addFilterBefore(corsFilter, ChannelProcessingFilter.class); //添加跨域filter
     }
+
 
     @Override
     @Bean
